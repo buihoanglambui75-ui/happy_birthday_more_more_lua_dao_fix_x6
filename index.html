@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hộp quà sinh nhật</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* =====================================
+           BODY
+        ===================================== */
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #211a3b 0%,
+                    #111 55%,
+                    #080808 100%
+                );
+
+            font-family: Arial, sans-serif;
+        }
+
+
+        /* =====================================
+           CREDIT
+        ===================================== */
+
+        .credit {
+            position: fixed;
+
+            top: 12px;
+            left: 15px;
+
+            color: #888;
+
+            font-size: 12px;
+
+            opacity: 0.8;
+
+            z-index: 1000;
+        }
+
+
+        /* =====================================
+           KHU VỰC HỘP
+        ===================================== */
+
+        .gift-container {
+
+            position: relative;
+
+            width: 300px;
+            height: 350px;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            cursor: pointer;
+
+            perspective: 800px;
+
+            transform: translateY(80px);
+        }
+
+
+        /* =====================================
+           VÒNG SÁNG
+        ===================================== */
+
+        .glow {
+
+            position: absolute;
+
+            bottom: 30px;
+
+            width: 230px;
+            height: 45px;
+
+            background: #8e6cff;
+
+            border-radius: 50%;
+
+            filter: blur(25px);
+
+            opacity: 0.35;
+
+            transition: 0.5s;
+
+            z-index: 0;
+        }
+
+
+        .gift-container:hover .glow {
+
+            opacity: 0.65;
+
+            transform: scale(1.15);
+        }
+
+
+        /* =====================================
+           ÁNH SÁNG
+        ===================================== */
+
+        .light {
+
+            position: absolute;
+
+            left: 100px;
+            bottom: 145px;
+
+            width: 100px;
+            height: 80px;
+
+            background: #ffd86b;
+
+            border-radius: 50%;
+
+            filter: blur(25px);
+
+            opacity: 0;
+
+            z-index: 1;
+
+            transition: 0.5s;
+        }
+
+
+        .gift-container.open .light {
+
+            opacity: 1;
+
+            animation:
+                lightPulse 1s
+                infinite alternate;
+        }
+
+
+        @keyframes lightPulse {
+
+            from {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+
+            to {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+
+        /* =====================================
+           TẤT CẢ DÒNG CHỮ
+        ===================================== */
+
+        .message {
+
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 125px;
+
+            white-space: nowrap;
+
+            color: #ffd86b;
+
+            font-size: 25px;
+
+            font-weight: bold;
+
+            text-shadow:
+                0 0 5px #ffd86b,
+                0 0 15px #ff9f00,
+                0 0 30px #ff7b00;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            z-index: 2;
+        }
+
+
+        /* =====================================
+           CLASS KHI CHỮ HIỆN
+        ===================================== */
+
+        .message.show {
+
+            animation:
+                messageFly 7.5s
+                cubic-bezier(.17,.67,.24,1.2)
+                forwards;
+        }
+
+
+        /* =====================================
+           ANIMATION CHỮ ĐẦU
+
+           BAY → PHÓNG TO
+           → ĐỨNG YÊN → MỜ
+        ===================================== */
+
+        @keyframes messageFly {
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, 20px)
+                    scale(0.25)
+                    rotate(-8deg);
+            }
+
+
+            12% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, 5px)
+                    scale(0.27)
+                    rotate(3deg);
+            }
+
+
+            25% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -55px)
+                    scale(0.29)
+                    rotate(-3deg);
+            }
+
+
+            38% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -115px)
+                    scale(0.32)
+                    rotate(2deg);
+            }
+
+
+            45% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -145px)
+                    scale(0.65)
+                    rotate(-2deg);
+            }
+
+
+            52% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -190px)
+                    scale(1.15)
+                    rotate(1deg);
+            }
+
+
+            56% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -205px)
+                    scale(1.15)
+                    rotate(0deg);
+            }
+
+
+            /* ĐỨNG YÊN */
+
+            90% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -205px)
+                    scale(1.15)
+                    rotate(0deg);
+            }
+
+
+            /* MỜ DẦN */
+
+            100% {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -215px)
+                    scale(1.1)
+                    rotate(2deg);
+            }
+        }
+
+
+        /* =====================================
+           CHỮ THỨ 2 + THỨ 3 + SINH NHẬT
+        ===================================== */
+
+        .message.short {
+
+            animation:
+                shortMessage 3.5s
+                cubic-bezier(.17,.67,.24,1.2)
+                forwards;
+        }
+
+
+        @keyframes shortMessage {
+
+            /* Bắt đầu trong hộp */
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, 20px)
+                    scale(0.25)
+                    rotate(-5deg);
+            }
+
+
+            /* Bay ra */
+
+            20% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -80px)
+                    scale(0.45)
+                    rotate(3deg);
+            }
+
+
+            /* Phóng to */
+
+            35% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -150px)
+                    scale(1.15)
+                    rotate(-2deg);
+            }
+
+
+            /* Đứng yên 2 giây */
+
+            85% {
+
+                opacity: 1;
+
+                transform:
+                    translate(-50%, -205px)
+                    scale(1.15)
+                    rotate(0deg);
+            }
+
+
+            /* Biến mất */
+
+            100% {
+
+                opacity: 0;
+
+                transform:
+                    translate(-50%, -215px)
+                    scale(1.1)
+                    rotate(2deg);
+            }
+        }
+
+
+        /* =====================================
+           HỘP
+        ===================================== */
+
+        .gift {
+
+            position: relative;
+
+            width: 170px;
+            height: 140px;
+
+            transform-style: preserve-3d;
+
+            z-index: 5;
+        }
+
+
+        /* =====================================
+           HOVER
+        ===================================== */
+
+        .gift-container:not(.open):hover .gift {
+
+            transform:
+                translateY(-5px)
+                scale(1.04);
+
+            transition:
+                transform 0.4s ease;
+        }
+
+
+        /* =====================================
+           THÂN HỘP
+        ===================================== */
+
+        .box {
+
+            position: absolute;
+
+            bottom: 20px;
+            left: 10px;
+
+            width: 150px;
+            height: 110px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8064ff,
+                    #5638c9
+                );
+
+            border-radius: 5px;
+
+            box-shadow:
+
+                inset 0 0 20px
+                rgba(255,255,255,0.15),
+
+                0 15px 30px
+                rgba(0,0,0,0.5);
+
+            transition:
+                background 1s ease,
+                box-shadow 1s ease;
+        }
+
+
+        /* =====================================
+           RUY-BĂNG DỌC
+        ===================================== */
+
+        .ribbon-vertical {
+
+            position: absolute;
+
+            left: 65px;
+            bottom: 20px;
+
+            width: 40px;
+            height: 110px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ff4f9a,
+                    #ff75b0,
+                    #ff4f9a
+                );
+
+            z-index: 2;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        /* =====================================
+           RUY-BĂNG NGANG
+        ===================================== */
+
+        .ribbon-horizontal {
+
+            position: absolute;
+
+            left: 10px;
+            bottom: 75px;
+
+            width: 150px;
+            height: 30px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ff75b0,
+                    #ff3f91
+                );
+
+            z-index: 4;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        /* =====================================
+           NẮP
+        ===================================== */
+
+        .lid {
+
+            position: absolute;
+
+            left: 0;
+            bottom: 115px;
+
+            width: 170px;
+            height: 38px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #9b83ff,
+                    #684de0
+                );
+
+            border-radius: 6px;
+
+            z-index: 10;
+
+            transform-origin:
+                bottom center;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        /* =====================================
+           RUY-BĂNG NẮP
+        ===================================== */
+
+        .ribbon-lid {
+
+            position: absolute;
+
+            left: 65px;
+            top: 0;
+
+            width: 40px;
+            height: 38px;
+
+            background: #ff5ba3;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        /* =====================================
+           NƠ
+        ===================================== */
+
+        .bow {
+
+            position: absolute;
+
+            top: -35px;
+            left: 52px;
+
+            width: 65px;
+            height: 40px;
+
+            z-index: 12;
+        }
+
+
+        .bow-left,
+        .bow-right {
+
+            position: absolute;
+
+            width: 45px;
+            height: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff72b2,
+                    #ff318d
+                );
+
+            border-radius:
+                50% 50% 10% 50%;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        .bow-left {
+
+            left: -12px;
+
+            transform:
+                rotate(25deg);
+        }
+
+
+        .bow-right {
+
+            right: -12px;
+
+            transform:
+                rotate(-25deg);
+        }
+
+
+        .bow-center {
+
+            position: absolute;
+
+            left: 23px;
+            top: 8px;
+
+            width: 22px;
+            height: 22px;
+
+            background: #ff3d91;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 10px #ff4f9a;
+
+            transition:
+                background 1s ease;
+        }
+
+
+        /* =====================================
+           NẮP BAY
+        ===================================== */
+
+        .gift-container.open .lid {
+
+            animation:
+                lidFlyAway 3.8s
+                cubic-bezier(.25,.46,.45,.94)
+                forwards;
+        }
+
+
+        @keyframes lidFlyAway {
+
+            0% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+
+            15% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-95px)
+                    rotate(-10deg);
+            }
+
+
+            30% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-125px)
+                    rotate(-16deg);
+            }
+
+
+            50% {
+
+                opacity: 0.9;
+
+                transform:
+                    translateY(-60px)
+                    rotate(8deg);
+            }
+
+
+            70% {
+
+                opacity: 0.65;
+
+                transform:
+                    translateY(60px)
+                    rotate(20deg);
+            }
+
+
+            85% {
+
+                opacity: 0.3;
+
+                transform:
+                    translateY(160px)
+                    rotate(35deg);
+            }
+
+
+            100% {
+
+                opacity: 0;
+
+                transform:
+                    translateY(300px)
+                    rotate(55deg);
+            }
+        }
+
+
+        /* =====================================
+           NƠ BAY
+        ===================================== */
+
+        .gift-container.open .bow {
+
+            animation:
+                bowFlyAway 3.8s
+                cubic-bezier(.25,.46,.45,.94)
+                forwards;
+        }
+
+
+        @keyframes bowFlyAway {
+
+            0% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+
+            15% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-95px)
+                    rotate(-10deg);
+            }
+
+
+            30% {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-125px)
+                    rotate(-16deg);
+            }
+
+
+            50% {
+
+                opacity: 0.9;
+
+                transform:
+                    translateY(-60px)
+                    rotate(8deg);
+            }
+
+
+            70% {
+
+                opacity: 0.65;
+
+                transform:
+                    translateY(60px)
+                    rotate(20deg);
+            }
+
+
+            85% {
+
+                opacity: 0.3;
+
+                transform:
+                    translateY(160px)
+                    rotate(35deg);
+            }
+
+
+            100% {
+
+                opacity: 0;
+
+                transform:
+                    translateY(300px)
+                    rotate(55deg);
+            }
+        }
+
+
+        /* =====================================
+           RUNG HỘP
+        ===================================== */
+
+        .gift-container.shake .gift {
+
+            animation:
+                giftShake 0.6s ease;
+        }
+
+
+        @keyframes giftShake {
+
+            0% {
+                transform: scale(1);
+            }
+
+            30% {
+                transform:
+                    scale(1.08)
+                    rotate(-2deg);
+            }
+
+            60% {
+                transform:
+                    scale(1.05)
+                    rotate(2deg);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        /* =====================================
+           TEXT HƯỚNG DẪN
+        ===================================== */
+
+        .text {
+
+            position: absolute;
+
+            bottom: 0;
+
+            color: #ddd;
+
+            font-size: 14px;
+
+            opacity: 0.7;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+
+            z-index: 20;
+        }
+
+
+        .gift-container:not(.open):hover .text {
+
+            color: white;
+
+            opacity: 1;
+        }
+
+
+        .gift-container.open .text {
+
+            color: #ffd86b;
+
+            text-shadow:
+                0 0 10px #ffd86b;
+        }
+
+
+        /* =====================================
+           CHẾ ĐỘ SINH NHẬT
+        ===================================== */
+
+        .gift-container.birthday .box {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff6b9a,
+                    #ff3d68
+                );
+
+            box-shadow:
+
+                inset 0 0 20px
+                rgba(255,255,255,0.2),
+
+                0 15px 30px
+                rgba(255,70,100,0.35);
+        }
+
+
+        .gift-container.birthday .ribbon-vertical {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffd84d,
+                    #fff09a,
+                    #ffd84d
+                );
+        }
+
+
+        .gift-container.birthday .ribbon-horizontal {
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffd84d,
+                    #ffbd22
+                );
+        }
+
+
+        .gift-container.birthday .lid {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff8fb1,
+                    #ff4774
+                );
+        }
+
+
+        .gift-container.birthday .ribbon-lid {
+
+            background: #ffd84d;
+        }
+
+
+        .gift-container.birthday .bow-left,
+        .gift-container.birthday .bow-right {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffd84d,
+                    #ffb300
+                );
+        }
+
+
+        .gift-container.birthday .bow-center {
+
+            background: #ffb300;
+
+            box-shadow:
+                0 0 15px #ffd84d;
+        }
+
+
+        .gift-container.birthday .glow {
+
+            background: #ff5c8a;
+
+            opacity: 0.55;
+        }
+
+
+        /* =====================================
+           CONFETTI
+        ===================================== */
+
+        .rain-confetti {
+
+            position: fixed;
+
+            top: -30px;
+
+            width: 9px;
+            height: 16px;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            z-index: 900;
+        }
+
+
+        .rain-confetti.falling {
+
+            animation:
+                fall linear forwards;
+        }
+
+
+        @keyframes fall {
+
+            0% {
+
+                transform:
+                    translateY(-30px)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+
+            100% {
+
+                transform:
+                    translateY(110vh)
+                    rotate(720deg);
+
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- CREDIT -->
+
+    <div class="credit">
+        Nguoi Thuc Vat
+    </div>
+
+
+    <!-- =====================================
+         HỘP QUÀ
+    ===================================== -->
+
+    <div
+        class="gift-container"
+        id="gift"
+        onclick="handleGiftClick()"
+    >
+
+
+        <!-- Vòng sáng -->
+
+        <div class="glow"></div>
+
+
+        <!-- Ánh sáng -->
+
+        <div class="light"></div>
+
+
+        <!-- =================================
+             DÒNG CHỮ
+        ================================== -->
+
+        <div
+            class="message"
+            id="message"
+        >
+            💸 Bạn đã mất một tỷ =))
+        </div>
+
+
+        <!-- =================================
+             HỘP
+        ================================== -->
+
+        <div class="gift">
+
+
+            <!-- Thân -->
+
+            <div class="box"></div>
+
+
+            <!-- Ruy-băng dọc -->
+
+            <div class="ribbon-vertical"></div>
+
+
+            <!-- Ruy-băng ngang -->
+
+            <div class="ribbon-horizontal"></div>
+
+
+            <!-- Nắp -->
+
+            <div class="lid">
+
+                <div class="ribbon-lid"></div>
+
+            </div>
+
+
+            <!-- Nơ -->
+
+            <div class="bow">
+
+                <div class="bow-left"></div>
+
+                <div class="bow-right"></div>
+
+                <div class="bow-center"></div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================
+             TEXT
+        ================================== -->
+
+        <div
+            class="text"
+            id="text"
+        >
+            🎁 Bấm vào hộp quà
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+
+        /* =====================================
+           BIẾN TRẠNG THÁI
+        ===================================== */
+
+        let opened = false;
+
+        let sequenceRunning = false;
+
+
+        /* =====================================
+           CLICK HỘP
+        ===================================== */
+
+        function handleGiftClick() {
+
+
+            /*
+                Nếu animation đang chạy
+                thì không cho click lung tung.
+            */
+
+            if (sequenceRunning) {
+                return;
+            }
+
+
+            const gift =
+                document.getElementById("gift");
+
+
+            /*
+                Nếu hộp đang đóng
+                → mở
+            */
+
+            if (!opened) {
+
+                openGift();
+
+            }
+
+        }
+
+
+        /* =====================================
+           MỞ HỘP
+        ===================================== */
+
+        function openGift() {
+
+
+            const gift =
+                document.getElementById("gift");
+
+
+            const text =
+                document.getElementById("text");
+
+
+            const message =
+                document.getElementById("message");
+
+
+            /*
+                Nếu đây là lần đầu
+                → reset màu sinh nhật
+            */
+
+            gift.classList.remove("birthday");
+
+
+            /*
+                Xóa animation cũ
+            */
+
+            message.className = "message";
+
+
+            void message.offsetWidth;
+
+
+            /*
+                Mở hộp
+            */
+
+            gift.classList.add("open");
+
+            gift.classList.add("shake");
+
+
+            /*
+                Text
+            */
+
+            text.innerHTML =
+                "🎁 Đang mở quà...";
+
+
+            opened = true;
+
+            sequenceRunning = true;
+
+
+            /*
+                Animation chữ đầu
+            */
+
+            setTimeout(() => {
+
+                message.classList.add("show");
+
+            }, 250);
+
+
+            /*
+                Confetti
+            */
+
+            createConfetti();
+
+
+            /*
+                Sau khi chữ đầu hoàn thành
+                → chữ thứ 2
+            */
+
+            setTimeout(() => {
+
+                showSecondMessage();
+
+            }, 7500);
+
+        }
+
+
+        /* =====================================
+           CHỮ THỨ 2
+
+           "Đùa đấy"
+        ===================================== */
+
+        function showSecondMessage() {
+
+
+            const message =
+                document.getElementById("message");
+
+
+            message.className = "message";
+
+
+            void message.offsetWidth;
+
+
+            message.innerHTML =
+                "😂 Đùa đấy";
+
+
+            message.classList.add("short");
+
+
+            /*
+                Sau 3.5 giây
+                → chữ thứ 3
+            */
+
+            setTimeout(() => {
+
+                showThirdMessage();
+
+            }, 3500);
+
+        }
+
+
+        /* =====================================
+           CHỮ THỨ 3
+
+           "Làm lại đi"
+        ===================================== */
+
+        function showThirdMessage() {
+
+
+            const message =
+                document.getElementById("message");
+
+
+            message.className = "message";
+
+
+            void message.offsetWidth;
+
+
+            message.innerHTML =
+                "🔄 Làm lại đi";
+
+
+            message.classList.add("short");
+
+
+            /*
+                Sau 3.5 giây
+                → đóng hộp
+            */
+
+            setTimeout(() => {
+
+                finishSequence();
+
+            }, 3500);
+
+        }
+
+
+        /* =====================================
+           KẾT THÚC
+
+           ĐÓNG HỘP
+           + ĐỔI MÀU SINH NHẬT
+        ===================================== */
+
+        function finishSequence() {
+
+
+            const gift =
+                document.getElementById("gift");
+
+
+            const message =
+                document.getElementById("message");
+
+
+            const text =
+                document.getElementById("text");
+
+
+            /*
+                Ẩn chữ
+            */
+
+            message.className = "message";
+
+
+            message.innerHTML = "";
+
+
+            /*
+                Đóng hộp
+            */
+
+            gift.classList.remove("open");
+
+
+            /*
+                Chuyển sang màu sinh nhật
+            */
+
+            setTimeout(() => {
+
+                gift.classList.add("birthday");
+
+            }, 700);
+
+
+            /*
+                Đổi text
+            */
+
+            text.innerHTML =
+                "🎂 Bấm vào hộp quà";
+
+
+            /*
+                Trạng thái
+            */
+
+            opened = false;
+
+            sequenceRunning = false;
+
+        }
+
+
+        /* =====================================
+           CONFETTI
+        ===================================== */
+
+        function createConfetti() {
+
+
+            const colors = [
+
+                "#ff4f9a",
+                "#ffd84d",
+                "#5ee7ff",
+                "#a878ff",
+                "#ff914d",
+                "#7dff82",
+                "#ffffff"
+
+            ];
+
+
+            /*
+                100 mảnh
+            */
+
+            for (
+                let i = 0;
+                i < 100;
+                i++
+            ) {
+
+
+                const confetti =
+                    document.createElement("div");
+
+
+                confetti.classList.add(
+                    "rain-confetti"
+                );
+
+
+                /*
+                    Vị trí
+                */
+
+                confetti.style.left =
+                    Math.random() * 100 + "vw";
+
+
+                /*
+                    Màu
+                */
+
+                confetti.style.background =
+                    colors[
+                        Math.floor(
+                            Math.random() *
+                            colors.length
+                        )
+                    ];
+
+
+                /*
+                    Kích thước
+                */
+
+                confetti.style.width =
+                    Math.random() * 7 + 5 + "px";
+
+
+                confetti.style.height =
+                    Math.random() * 12 + 8 + "px";
+
+
+                /*
+                    Tốc độ
+                */
+
+                confetti.style.animationDuration =
+                    Math.random() * 3 + 2 + "s";
+
+
+                /*
+                    Delay
+                */
+
+                confetti.style.animationDelay =
+                    Math.random() * 1.2 + "s";
+
+
+                /*
+                    Góc
+                */
+
+                confetti.style.transform =
+                    "rotate(" +
+                    Math.random() * 360 +
+                    "deg)";
+
+
+                /*
+                    Thêm
+                */
+
+                document.body.appendChild(
+                    confetti
+                );
+
+
+                /*
+                    Bắt đầu
+                */
+
+                requestAnimationFrame(() => {
+
+                    confetti.classList.add(
+                        "falling"
+                    );
+
+                });
+
+
+                /*
+                    Xóa
+                */
+
+                setTimeout(() => {
+
+                    confetti.remove();
+
+                }, 6000);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
